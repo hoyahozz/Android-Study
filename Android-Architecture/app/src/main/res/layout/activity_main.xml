@@ -9,18 +9,24 @@
 
     <TextView
         android:id="@+id/name"
+        android:textSize="20sp"
+        android:text="sample1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/phone"
+        android:textSize="20sp"
+        android:text="sample1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/address"
+        android:textSize="20sp"
+        android:text="sample1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
@@ -29,7 +35,16 @@
         android:id="@+id/edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:text="Edit"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/room"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Room"
         android:layout_gravity="center"/>
 
 </LinearLayout>

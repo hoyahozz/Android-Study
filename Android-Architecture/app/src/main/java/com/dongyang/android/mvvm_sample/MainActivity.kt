@@ -9,6 +9,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.RoomDatabase
 import com.dongyang.android.mvvm_sample.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var userProfile: UserProfile
     private val viewModel : UserProfileViewModel by viewModels() // 뷰모델 선언
+    lateinit var userDB : UserProfileDatabase
 
     /* 뷰모델 대신 싱글턴 객체를 사용하면 되지 않나?
      * -> 액티비티가 보여지고 있을 때만 리스너가 호출이 되어야하는데, 싱글턴 객체는 이를 개발자가 직접 코딩해야 한다.
@@ -33,46 +35,51 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val resultListener = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                Log.d("Main", "Callback ON")
-                val userProfile = viewModel.livedata.value
-                Log.d("Main", it.data?.getStringExtra("phone").toString())
-                userProfile?.phone = it.data?.getStringExtra("phone").toString()
-                userProfile?.name = it.data?.getStringExtra("name").toString()
-                viewModel.livedata.value = userProfile
-            }
+        binding.room.setOnClickListener {
+            val intent = Intent(this, RoomActivity::class.java)
+            startActivity(intent)
         }
 
-        binding.edit.setOnClickListener {
-            val intent = Intent(this, EditUserProfileActivity::class.java)
-            intent.putExtra("phone", userProfile.phone)
-            intent.putExtra("name", userProfile.name)
-            resultListener.launch(intent)
-        }
-
-        viewModel.livedata.observe(this) { // 변경사항 관찰하였을 때 UI 변경
-            Log.d("Main", "Observer ON")
-            updateUI(it)
-        }
-
-        if (viewModel.livedata.value == null) { // livedata 존재하지 않을 시 기본 UI 설정
-            Log.d("Main", "livedata null")
-            fetchUserProfile()
-        }
-    }
-
-    private fun fetchUserProfile() {
-        userProfile = UserProfile("","","")
-        userProfile.name = "홍길동"
-        userProfile.phone = "01034567890"
-        userProfile.address = "서울"
-        viewModel.livedata.value = userProfile
-    }
-
-    private fun updateUI(userProfile: UserProfile) {
-        binding.name.text = userProfile.name
-        binding.phone.text = userProfile.phone
-        binding.address.text = userProfile.address
+//        val resultListener = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+//            if (it.resultCode == Activity.RESULT_OK) {
+//                Log.d("Main", "Callback ON")
+//                val userProfile = viewModel.livedata.value
+//                Log.d("Main", it.data?.getStringExtra("phone").toString())
+//                userProfile?.phone = it.data?.getStringExtra("phone").toString()
+//                userProfile?.name = it.data?.getStringExtra("name").toString()
+//                viewModel.livedata.value = userProfile
+//            }
+//        }
+//
+//        binding.edit.setOnClickListener {
+//            val intent = Intent(this, EditUserProfileActivity::class.java)
+//            intent.putExtra("phone", userProfile.phone)
+//            intent.putExtra("name", userProfile.name)
+//            resultListener.launch(intent)
+//        }
+//
+//        viewModel.livedata.observe(this) { // 변경사항 관찰하였을 때 UI 변경
+//            Log.d("Main", "Observer ON")
+//            updateUI(it)
+//        }
+//
+//        if (viewModel.livedata.value == null) { // livedata 존재하지 않을 시 기본 UI 설정
+//            Log.d("Main", "livedata null")
+//            fetchUserProfile()
+//        }
+//    }
+//
+//    private fun fetchUserProfile() {
+//        userProfile = UserProfile(null, "","", "")
+//        userProfile.name = "홍길동"
+//        userProfile.phone = "01034567890"
+//        userProfile.address = "서울"
+//        viewModel.livedata.value = userProfile
+//    }
+//
+//    private fun updateUI(userProfile: UserProfile) {
+//        binding.name.text = userProfile.name
+//        binding.phone.text = userProfile.phone
+//        binding.address.text = userProfile.address
     }
 }
