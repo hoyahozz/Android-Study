@@ -6,11 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
+
+
 class UserProfileViewModel : ViewModel() { // 뷰모델 클래스
 
     val dao : UserProfileDao
     val userList : LiveData<List<UserProfile>>
-
 
     init {
         dao = UserProfileDatabase.INSTANCE!!.userProfileDao()
@@ -20,6 +21,18 @@ class UserProfileViewModel : ViewModel() { // 뷰모델 클래스
     fun insertUser(userProfile: UserProfile) {
         viewModelScope.launch {
             dao.insert(userProfile)
+        }
+    }
+
+    fun updateUser(userProfile: UserProfile) {
+        viewModelScope.launch {
+            dao.update(userProfile)
+        }
+    }
+
+    fun deleteUser(userProfile: UserProfile) {
+        viewModelScope.launch {
+            dao.delete(userProfile)
         }
     }
 

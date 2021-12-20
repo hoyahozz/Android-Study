@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
  * @Description :
  */
 
-@Entity
+@Entity(tableName = "UserProfile")
 data class UserProfile (
     @PrimaryKey(autoGenerate = true)
     var id : Int?,

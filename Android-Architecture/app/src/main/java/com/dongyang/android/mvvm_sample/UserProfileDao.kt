@@ -7,7 +7,7 @@ import androidx.room.*
 interface UserProfileDao {
 
     @Insert
-    fun insert(userProfile: UserProfile)
+    suspend fun insert(userProfile: UserProfile)
 
     @Update
     fun update(userProfile: UserProfile)
