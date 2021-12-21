@@ -40,6 +40,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.edit.setOnClickListener {
+            val intent = Intent(this, EditProfileActivity::class.java)
+            startActivity(intent)
+        }
+
 //        val resultListener = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
 //            if (it.resultCode == Activity.RESULT_OK) {
 //                Log.d("Main", "Callback ON")

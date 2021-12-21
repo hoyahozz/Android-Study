@@ -8,6 +8,7 @@
     tools:context=".RoomActivity">
 
     <TextView
+        android:id="@+id/room_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
