@@ -57,7 +57,6 @@ class UserAdapter(
 
     // 아이템 삭제 메소드
     override fun removeItem(position: Int) {
-
         if(position != 0) {
             viewModel.delete(this.items[position])
             this.items.removeAt(position)

@@ -14,6 +14,7 @@ class SimpleItemTouchHelperCallback(listener: onItemTouchListener) : ItemTouchHe
     ): Int {
         return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.START or ItemTouchHelper.END)
+
     }
 
     override fun onMove(
@@ -23,7 +24,9 @@ class SimpleItemTouchHelperCallback(listener: onItemTouchListener) : ItemTouchHe
     ): Boolean = listener.moveItem(viewHolder.adapterPosition, target.adapterPosition)
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int)
-    = listener.removeItem(viewHolder.adapterPosition)
+    {
+        return listener.removeItem(viewHolder.adapterPosition)
+    }
 
     // 무브, 혹은 스와이프가 일어났을 때 동작해야할 MoveItem, RemoveItem을 인터페이스로 설정
     interface onItemTouchListener {
