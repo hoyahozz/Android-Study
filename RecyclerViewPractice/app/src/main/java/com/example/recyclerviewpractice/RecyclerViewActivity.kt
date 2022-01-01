@@ -2,6 +2,7 @@ package com.example.recyclerviewpractice
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,15 +12,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.recyclerviewpractice.databinding.ActivityRecyclerViewBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class RecyclerViewActivity : AppCompatActivity() {
 
-    private val TAG = "RecyclerViewActivity"
-    private val binding : ActivityRecyclerViewBinding by lazy {
+    companion object {
+        private const val TAG = "RecyclerViewActivity"
+    }
+
+    private val binding: ActivityRecyclerViewBinding by lazy {
         ActivityRecyclerViewBinding.inflate(layoutInflater)
     }
-    private val viewModel : UserViewModel by viewModels()
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +75,7 @@ class RecyclerViewActivity : AppCompatActivity() {
 
         binding.rvUser.apply {
             // this.setHasFixedSize(true) // ListAdapter 에서 사용시 에러 발생
-            this.layoutManager = LinearLayoutManager(context)
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             this.adapter = listAdapter
             this.addItemDecoration(RecyclerViewDecoration(10))
             this.addItemDecoration(DividerItemDecoration(context, 1))
@@ -76,7 +84,18 @@ class RecyclerViewActivity : AppCompatActivity() {
         viewModel.userList.observe(this) {
             Toast.makeText(this, "데이터 변화 발생", Toast.LENGTH_SHORT).show()
             it?.let {
-                listAdapter.submitList(it)
+                listAdapter.submitList(it.toMutableList())
+            }
+
+            listAdapter.onCurrentListChanged(it, it)
+
+            // 이유는 모르겠는데 상단의 데이터로 스크롤하려면 핸들러를 넣어야 함. -> UI 스레드가 변화를 따라잡지 못해서 생기는 현상임.
+            GlobalScope.launch(Dispatchers.Main) {
+                delay(200)
+                if (it.size > 1) {
+                    binding.rvUser.smoothScrollToPosition(0)
+                    // binding.rvUser.layoutManager?.scrollToPosition(0)
+                }
             }
         }
 

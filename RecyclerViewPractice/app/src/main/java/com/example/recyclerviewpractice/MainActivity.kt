@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.recyclerviewpractice.databinding.ActivityMainBinding
+import com.example.recyclerviewpractice.headerpractice.HeaderActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -21,6 +22,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnRcv.setOnClickListener {
             val intent = Intent(this, RecyclerViewActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.btnHeader.setOnClickListener {
+            val intent = Intent(this, HeaderActivity::class.java)
             startActivity(intent)
         }
     }
