@@ -24,4 +24,5 @@ class ParentAdapter : RecyclerView.Adapter<ParentAdapter.MyViewHolder>() {
     inner class MyViewHolder(binding: ItemParentUserBinding) : RecyclerView.ViewHolder(binding.root) {
         val name = binding.name
     }
+
 }
