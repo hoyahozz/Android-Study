@@ -26,7 +26,6 @@ class RecyclerViewActivity : AppCompatActivity() {
     }
     private val viewModel: UserViewModel by viewModels()
 
-    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
