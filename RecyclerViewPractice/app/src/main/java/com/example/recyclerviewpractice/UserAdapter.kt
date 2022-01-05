@@ -3,11 +3,10 @@ package com.example.recyclerviewpractice
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recyclerviewpractice.databinding.ItemUserBinding
-import kotlinx.coroutines.NonDisposableHandle.parent
+import com.example.recyclerviewpractice.model.User
+import com.example.recyclerviewpractice.viewModel.UserViewModel
 
 class UserAdapter(
     viewModel: UserViewModel

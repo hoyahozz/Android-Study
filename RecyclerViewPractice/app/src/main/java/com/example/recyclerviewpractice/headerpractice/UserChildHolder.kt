@@ -1,14 +1,7 @@
 package com.dongyang.android.pcheduler.Adapter
 
-import android.content.Context
-import android.graphics.Paint
-import android.text.Layout
 import android.view.View
-import android.widget.CheckBox
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
-import com.example.recyclerviewpractice.UserViewModel
+import com.example.recyclerviewpractice.viewModel.UserViewModel
 import com.example.recyclerviewpractice.databinding.ItemChildUserBinding
 import com.example.recyclerviewpractice.headerpractice.UserSealed
 import com.example.recyclerviewpractice.headerpractice.UserSealedAdapter

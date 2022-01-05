@@ -2,6 +2,7 @@ package com.example.recyclerviewpractice
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.recyclerviewpractice.model.User
 
 @Dao
 interface UserDao {

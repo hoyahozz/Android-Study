@@ -1,4 +1,4 @@
-package com.example.recyclerviewpractice
+package com.example.recyclerviewpractice.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

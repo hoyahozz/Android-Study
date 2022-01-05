@@ -1,10 +1,11 @@
-package com.example.recyclerviewpractice
+package com.example.recyclerviewpractice.viewModel
 
-import android.service.autofill.UserData
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.recyclerviewpractice.model.User
+import com.example.recyclerviewpractice.UserDataBase
 import com.example.recyclerviewpractice.headerpractice.UserSealed
 import kotlinx.coroutines.launch
 

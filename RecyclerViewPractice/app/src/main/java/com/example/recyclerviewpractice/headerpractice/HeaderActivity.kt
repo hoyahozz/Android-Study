@@ -5,13 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.recyclerviewpractice.R
-import com.example.recyclerviewpractice.UserViewModel
+import com.example.recyclerviewpractice.viewModel.UserViewModel
 import com.example.recyclerviewpractice.databinding.ActivityHeaderBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class HeaderActivity : AppCompatActivity() {
 

@@ -1,7 +1,7 @@
 package com.example.recyclerviewpractice.headerpractice
 
 import com.example.recyclerviewpractice.R
-import com.example.recyclerviewpractice.User
+import com.example.recyclerviewpractice.model.User
 
 sealed class UserSealed {
     abstract val user: User

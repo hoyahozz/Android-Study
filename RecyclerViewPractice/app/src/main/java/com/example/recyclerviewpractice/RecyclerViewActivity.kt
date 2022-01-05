@@ -1,17 +1,14 @@
 package com.example.recyclerviewpractice
 
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.recyclerviewpractice.databinding.ActivityRecyclerViewBinding
+import com.example.recyclerviewpractice.model.User
+import com.example.recyclerviewpractice.viewModel.UserViewModel
 import kotlinx.coroutines.*
 
 

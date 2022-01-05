@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dongyang.android.pcheduler.Adapter.UserChildHolder
 import com.dongyang.android.pcheduler.Adapter.UserParentHolder
-import com.example.recyclerviewpractice.User
-import com.example.recyclerviewpractice.UserViewModel
+import com.example.recyclerviewpractice.viewModel.UserViewModel
 
 class UserSealedAdapter(
     private val userViewModel: UserViewModel
