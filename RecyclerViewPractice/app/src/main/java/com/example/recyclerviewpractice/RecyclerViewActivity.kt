@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recyclerviewpractice.databinding.ActivityRecyclerViewBinding
 import com.example.recyclerviewpractice.model.User
@@ -64,13 +65,13 @@ class RecyclerViewActivity : AppCompatActivity() {
             }
         })
  */
-//        val mIth = ItemTouchHelper(SimpleItemTouchHelperCallback(adapter))
-//        mIth.attachToRecyclerView(binding.rvUser) // 적용
+        val mIth = ItemTouchHelper(SimpleItemTouchHelperCallback(adapter))
+        mIth.attachToRecyclerView(binding.rvUser) // 적용
 
         binding.rvUser.apply {
             // this.setHasFixedSize(true) // ListAdapter 에서 사용시 에러 발생
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            this.adapter = listAdapter
+            this.adapter = adapter
             this.addItemDecoration(RecyclerViewDecoration(10))
             this.addItemDecoration(DividerItemDecoration(context, 1))
         }
@@ -78,10 +79,8 @@ class RecyclerViewActivity : AppCompatActivity() {
         viewModel.userList.observe(this) {
             Toast.makeText(this, "데이터 변화 발생", Toast.LENGTH_SHORT).show()
             it?.let {
-                listAdapter.submitList(it.toMutableList())
+                adapter.setItem(it.toMutableList())
             }
-
-            listAdapter.onCurrentListChanged(it, it)
 
             // 이유는 모르겠는데 상단의 데이터로 스크롤하려면 핸들러를 넣어야 함. -> UI 스레드가 변화를 따라잡지 못해서 생기는 현상임.
             GlobalScope.launch(Dispatchers.Main) {

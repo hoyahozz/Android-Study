@@ -37,7 +37,6 @@ class UserViewModel : ViewModel() {
         }
     }
 
-
     fun fetchTasks(user : List<User>) {
         viewModelScope.launch {
             val listItems = user.toListItems()

@@ -3,10 +3,8 @@ package com.example.recyclerviewpractice
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class SimpleItemTouchHelperCallback(listener: onItemTouchListener) : ItemTouchHelper.Callback()  {
-
-    val listener = listener
-
+class SimpleItemTouchHelperCallback(private val listener: onItemTouchListener) : ItemTouchHelper.Callback()  {
+    
     // 드래그와 스와이프를 지원해줄 방향을 여기서 리턴한다.
     override fun getMovementFlags(
         recyclerView: RecyclerView,

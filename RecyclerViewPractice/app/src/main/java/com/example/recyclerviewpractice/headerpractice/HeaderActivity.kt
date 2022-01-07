@@ -22,7 +22,6 @@ class HeaderActivity : AppCompatActivity() {
         val adapter = UserSealedAdapter(viewModel)
 
         binding.rcv.apply {
-            this.setHasFixedSize(true)
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             this.adapter = adapter
         }
