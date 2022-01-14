@@ -9,13 +9,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.dongyang.android.pcheduler.Adapter.UserChildHolder
 import com.dongyang.android.pcheduler.Adapter.UserParentHolder
+import com.example.recyclerviewpractice.R
 import com.example.recyclerviewpractice.SimpleItemTouchHelperCallback
 import com.example.recyclerviewpractice.viewModel.UserViewModel
 
 class UserSealedAdapter(
     private val userViewModel: UserViewModel
 ) : ListAdapter<UserSealed, UserSealedAdapter.MyViewHolder>(myDiffCallBack),
-    SimpleItemTouchHelperCallback.onItemTouchListener {
+    ItemTouchHelperCallback.ItemTouchListener {
 
 
     override fun getItemViewType(position: Int): Int = getItem(position).layoutId
@@ -60,9 +61,12 @@ class UserSealedAdapter(
     }
 
     override fun removeItem(position: Int) {
-        userViewModel.delete(getItem(position))
-        getItem(position).removeAt(position)
-        notifyItemRemoved(position)
+        if(getItem(position).layoutId == R.layout.item_parent_user) return
+
+        if(position >= itemCount) return
+        val list = currentList.toMutableList()
+        userViewModel.delete(getItem(position).user)
+        if (list.removeAt(position) != null) submitList(list)
     }
 
 

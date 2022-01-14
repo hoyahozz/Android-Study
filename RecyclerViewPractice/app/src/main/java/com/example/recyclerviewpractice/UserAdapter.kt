@@ -11,7 +11,7 @@ import com.example.recyclerviewpractice.viewModel.UserViewModel
 class UserAdapter(
     viewModel: UserViewModel
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>(),
-    SimpleItemTouchHelperCallback.onItemTouchListener {
+    SimpleItemTouchHelperCallback.ItemTouchListener {
 
     private val TAG = "UserAdapter"
     private var items = arrayListOf<User>()
