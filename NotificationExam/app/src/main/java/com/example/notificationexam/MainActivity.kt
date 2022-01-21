@@ -11,6 +11,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
@@ -19,13 +20,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val btn = findViewById<Button>(R.id.btn)
+
+        btn.setOnClickListener {
+            val intent = Intent(this, AlarmActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun createNotification(view: View) {
         show()
     }
 
-    fun show() {
+    private fun show() {
         val builder = NotificationCompat.Builder(this, "default")
         // compat 을 사용하는 이유는 버전의 하위호환이 되기 때문이다. 즉, 버전분기를 신경쓰지 않고 작성해도 된다.
         // 그러나 알림 채널 등록은 버전분기를 타야하는 것은 똑같음.
@@ -58,10 +66,8 @@ class MainActivity : AppCompatActivity() {
         // 기기에서 제공하는 알람 사용
 
         builder.setSound(ringtoneUri) // 원하는 음악파일도 사용이 가능하다.
-
         val vibrate: LongArray = longArrayOf(0, 100, 200, 300) // 진동 설정, 진동의 규칙 지정
         builder.setVibrate(vibrate)
-
         builder.setAutoCancel(true)
         // Notification 클릭 시 앱이 실행되면서 사라지게 할 것인지, 사라지지 않게 할 것인지 설정
 
@@ -86,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         hide()
     }
 
-    fun hide() {
+    private fun hide() {
         NotificationManagerCompat.from(this).cancel(1)
         // = val manager : NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         // 같은 코드임
