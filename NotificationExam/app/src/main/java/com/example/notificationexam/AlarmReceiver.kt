@@ -32,11 +32,13 @@ class AlarmReceiver : BroadcastReceiver() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { // 버전 분기 처리
             createNotificationChannel(context, notificationManager)
         }
+        val minute = intent.getIntExtra("minute", 0)
 
-        val testIntent = Intent(context, AlarmActivity::class.java)
+        Log.d(TAG, "onReceive: $minute")
+        val testIntent = Intent(context, MainActivity::class.java)
 //        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK and Intent.FLAG_ACTIVITY_CLEAR_TASK
         val pendingIntent =
-            PendingIntent.getActivity(context, NOTIFICATION_ID, testIntent, PendingIntent.FLAG_ONE_SHOT)
+            PendingIntent.getActivity(context, minute, testIntent, PendingIntent.FLAG_IMMUTABLE)
 
 //        val ringtoneUri = RingtoneManager.getActualDefaultRingtoneUri(
 //            context,
@@ -46,7 +48,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val builder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("알림 제목")
-            .setContentText("알림 세부 텍스트")
+            .setContentText("$minute")
 //             .setSound(ringtoneUri) // 원하는 음악파일도 사용이 가능하다.
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -56,7 +58,7 @@ class AlarmReceiver : BroadcastReceiver() {
 //        val notificationManagerCompat = NotificationManagerCompat.from(context)
 //        notificationManagerCompat.notify(NOTIFICATION_ID, builder)
 
-        notificationManager.notify(NOTIFICATION_ID, builder)
+        notificationManager.notify(minute, builder)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

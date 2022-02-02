@@ -44,16 +44,20 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
         cal.set(Calendar.MINUTE, minute)
 
         val intent = Intent(requireContext(), AlarmReceiver::class.java)
+        intent.putExtra("minute", minute)
         val pendingIntent =
-            PendingIntent.getBroadcast(requireContext(), 123, intent, 0)
+            PendingIntent.getBroadcast(requireContext(), minute, intent, PendingIntent.FLAG_IMMUTABLE)
+
 
 //        val pendingIntent =
 //            PendingIntent.getActivity(requireContext(), 123, intent, 0)
 
-//        alarmManager.set(AlarmManager.RTC_WAKEUP, cal.timeInMillis, pendingIntent)
+        alarmManager.set(AlarmManager.RTC_WAKEUP, cal.timeInMillis, pendingIntent)
 
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.timeInMillis,
-            AlarmManager.INTERVAL_DAY, pendingIntent)
+//        // Repeating 은 반복 알람을 쓸 때 사용한다.
+//        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, cal.timeInMillis,
+//            AlarmManager.INTERVAL_DAY, pendingIntent) // setInexactRepating -> 오차 범위가 7분까지 있음.
+
 
         // ----------------------------------------------------------------------------
 
@@ -66,7 +70,9 @@ class TimePickerFragment : DialogFragment(), TimePickerDialog.OnTimeSetListener 
         Toast.makeText(
             requireContext(), "$dateText 으로 시간 설정", Toast.LENGTH_LONG
         ).show()
-        Log.d(TAG, "onTimeSet: $dateText")
+        Log.d(TAG, "onTimeSet: $dateText 으로 시간 설정")
+        Log.d(TAG, "Request Code: $minute")
+
 
     }
 
