@@ -1,5 +1,6 @@
 package com.example.recyclerviewpractice
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.recyclerviewpractice.databinding.ActivityRecyclerViewBinding
+import com.example.recyclerviewpractice.headerpractice.SwipeHelperCallBack
 import com.example.recyclerviewpractice.model.User
 import com.example.recyclerviewpractice.viewModel.UserViewModel
 import kotlinx.coroutines.*
@@ -24,6 +26,7 @@ class RecyclerViewActivity : AppCompatActivity() {
     }
     private val viewModel: UserViewModel by viewModels()
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -65,15 +68,26 @@ class RecyclerViewActivity : AppCompatActivity() {
             }
         })
  */
-        val mIth = ItemTouchHelper(SimpleItemTouchHelperCallback(adapter))
-        mIth.attachToRecyclerView(binding.rvUser) // 적용
+//        val mIth = ItemTouchHelper(SimpleItemTouchHelperCallback(adapter))
+//        mIth.attachToRecyclerView(binding.rvUser) // 적용
+
+        val mIth = SwipeHelperCallBack().apply {
+            setClamp(resources.displayMetrics.widthPixels.toFloat() / 8)
+        }
+        ItemTouchHelper(mIth).attachToRecyclerView(binding.rvUser)
+
 
         binding.rvUser.apply {
             // this.setHasFixedSize(true) // ListAdapter 에서 사용시 에러 발생
-            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            this.layoutManager = LinearLayoutManager(applicationContext)
             this.adapter = adapter
             this.addItemDecoration(RecyclerViewDecoration(10))
             this.addItemDecoration(DividerItemDecoration(context, 1))
+        }
+
+        binding.rvUser.setOnTouchListener { _, _ ->
+            mIth.removePreviousClamp(binding.rvUser)
+            false
         }
 
         viewModel.userList.observe(this) {
@@ -81,15 +95,14 @@ class RecyclerViewActivity : AppCompatActivity() {
             it?.let {
                 adapter.setItem(it.toMutableList())
             }
-
             // 이유는 모르겠는데 상단의 데이터로 스크롤하려면 핸들러를 넣어야 함. -> UI 스레드가 변화를 따라잡지 못해서 생기는 현상임.
-            GlobalScope.launch(Dispatchers.Main) {
-                delay(200)
-                if (it.size > 1) {
-                    binding.rvUser.smoothScrollToPosition(0)
-                    // binding.rvUser.layoutManager?.scrollToPosition(0)
-                }
-            }
+//            GlobalScope.launch(Dispatchers.Main) {
+//                delay(200)
+//                if (it.size > 1) {
+//                    binding.rvUser.smoothScrollToPosition(0)
+//                    // binding.rvUser.layoutManager?.scrollToPosition(0)
+//                }
+//            }
         }
 
         binding.btnInsert.setOnClickListener {

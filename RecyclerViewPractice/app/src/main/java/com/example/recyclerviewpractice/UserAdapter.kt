@@ -29,6 +29,7 @@ class UserAdapter(
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
+        holder.container.translationX = 0f
         holder.name.text = items[position].name
         holder.phone.text = items[position].phone
 
@@ -39,6 +40,12 @@ class UserAdapter(
 
     override fun getItemCount(): Int = items.size
 
+
+    override fun onViewDetachedFromWindow(holder: UserViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+
+    // (holder as RecyclerView.ViewHolder).itemView.animate().translationX(0f).setDuration(100L).start()
+    }
     // TODO : 라이브데이터와 연결하여 아이템 변경 감지하기!
 
     // 아이템을 이동하는 메소드
@@ -67,5 +74,6 @@ class UserAdapter(
         val name = binding.name
         val phone = binding.phone
         val delete = binding.delete
+        val container = binding.listContainer
     }
 }
