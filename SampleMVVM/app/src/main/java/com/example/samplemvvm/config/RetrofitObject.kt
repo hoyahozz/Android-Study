@@ -1,6 +1,6 @@
-package com.example.samplemvvm.data
+package com.example.samplemvvm.config
 
-import com.google.gson.GsonBuilder
+import com.example.samplemvvm.data.StationApi
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -10,6 +10,7 @@ object RetrofitObject {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val _api: StationApi = retrofit.create(StationApi::class.java)
-    val api get() = _api
+    val api: StationApi by lazy {
+        retrofit.create(StationApi::class.java)
+    }
 }

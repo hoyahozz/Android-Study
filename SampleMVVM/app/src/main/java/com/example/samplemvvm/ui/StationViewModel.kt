@@ -3,12 +3,23 @@ package com.example.samplemvvm.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.samplemvvm.data.model.Station
+import androidx.lifecycle.viewModelScope
+import com.example.samplemvvm.data.entity.Station
+import com.example.samplemvvm.data.repository.StationRepository
+import kotlinx.coroutines.launch
+import retrofit2.Response
 
-class StationViewModel : ViewModel() {
+class StationViewModel(private val stationRepository: StationRepository) : ViewModel() {
 
-    private val _stationList : MutableLiveData<List<Station>> = MutableLiveData()
-    val stationList : LiveData<List<Station>> = _stationList
+    private val _station : MutableLiveData<Response<Station>> = MutableLiveData()
+    val station : LiveData<Response<Station>> = _station
+
+    fun getList(apiKey : String) {
+        viewModelScope.launch {
+            val response = stationRepository.getStationList(apiKey)
+            _station.postValue(response)
+        }
+    }
 
 
 

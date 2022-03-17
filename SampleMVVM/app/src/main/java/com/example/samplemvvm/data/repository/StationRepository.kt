@@ -1,8 +1,12 @@
 package com.example.samplemvvm.data.repository
 
-import com.example.samplemvvm.data.model.Station
+import com.example.samplemvvm.config.RetrofitObject
+import com.example.samplemvvm.data.entity.Station
+import retrofit2.Response
 
-interface StationRepository {
+class StationRepository {
 
-    suspend fun getStationList(apiKey : String) : List<Station>
+    suspend fun getStationList(apiKey : String) : Response<Station> {
+        return RetrofitObject.api.getList(apiKey)
+    }
 }
