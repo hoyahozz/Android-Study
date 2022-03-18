@@ -1,4 +1,4 @@
-package com.example.samplemvvm.ui
+package com.example.samplemvvm.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

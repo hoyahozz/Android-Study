@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.samplemvvm.data.local.repository.UserRepository
 import com.example.samplemvvm.data.remote.repository.StationRepository
-import com.example.samplemvvm.ui.MainViewModel
+import com.example.samplemvvm.ui.main.MainViewModel
+import com.example.samplemvvm.ui.user.UserViewModel
 
 class ViewModelFactory(
     private val stationRepository: StationRepository,
@@ -18,7 +19,12 @@ class ViewModelFactory(
         return when (modelClass) {
 
             MainViewModel::class.java -> {
-                modelClass.getConstructor(STATION_REPO, USER_REPO).newInstance(stationRepository, userRepository)
+                modelClass.getConstructor(STATION_REPO, USER_REPO)
+                    .newInstance(stationRepository, userRepository)
+            }
+
+            UserViewModel::class.java -> {
+                modelClass.getConstructor(USER_REPO).newInstance(userRepository)
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class : ${modelClass.name}")

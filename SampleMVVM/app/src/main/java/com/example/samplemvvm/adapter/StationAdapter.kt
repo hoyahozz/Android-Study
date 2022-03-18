@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.samplemvvm.data.remote.entity.Row
 import com.example.samplemvvm.databinding.ItemListBinding
-import com.example.samplemvvm.ui.MainClickListener
+import com.example.samplemvvm.ui.main.MainClickListener
 
 class StationAdapter : RecyclerView.Adapter<StationAdapter.StationViewHolder>() {
 

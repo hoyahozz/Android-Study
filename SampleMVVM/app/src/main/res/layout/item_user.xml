@@ -3,26 +3,32 @@
 
     <data>
         <variable
-            name="station"
-            type="com.example.samplemvvm.data.remote.entity.Row" />
+            name="user"
+            type="com.example.samplemvvm.data.local.entity.UserEntity" />
 
-        <variable
-            name="itemLongClickListener"
-            type="com.example.samplemvvm.ui.main.MainClickListener" />
     </data>
 
     <LinearLayout
-        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:onClick="@{() -> itemLongClickListener.onListItemClick(station)}">
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@{user.id.toString()}"
+            android:hint="Station id"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@{station.station_name}"
+            android:text="@{user.stationName}"
             android:hint="Station Name"
             android:textColor="@color/black"
             android:textSize="16sp" />

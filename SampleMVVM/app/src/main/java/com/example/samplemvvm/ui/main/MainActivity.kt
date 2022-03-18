@@ -1,5 +1,6 @@
-package com.example.samplemvvm.ui
+package com.example.samplemvvm.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import com.example.samplemvvm.data.local.entity.UserEntity
 import com.example.samplemvvm.data.remote.entity.Row
 import com.example.samplemvvm.data.remote.repository.StationRepository
 import com.example.samplemvvm.databinding.ActivityMainBinding
+import com.example.samplemvvm.ui.user.UserActivity
 import com.example.samplemvvm.util.log
 import org.koin.android.ext.android.inject
 
@@ -51,6 +53,11 @@ class MainActivity : AppCompatActivity(), MainClickListener {
             this.addItemDecoration(RecyclerViewDecoration(10))
         }
 
+        binding.btnRoom.setOnClickListener {
+            val intent = Intent(this, UserActivity::class.java)
+            startActivity(intent)
+        }
+
         viewModel.station.observe(this) {
             if (it.isSuccessful) {
                 val row = it.body()!!.subwayStationMaster.row
@@ -64,7 +71,7 @@ class MainActivity : AppCompatActivity(), MainClickListener {
 
     override fun onListItemClick(item: Row) {
         Toast.makeText(this, "${item.station_name} 데이터베이스 저장 완료", Toast.LENGTH_SHORT).show()
-        viewModel.insertFavorite(UserEntity(item.station_name))
+        viewModel.insertFavorite(UserEntity(null, item.station_name))
     }
 }
 

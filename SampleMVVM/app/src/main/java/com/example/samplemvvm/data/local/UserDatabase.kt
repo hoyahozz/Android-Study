@@ -8,7 +8,7 @@ import com.example.samplemvvm.data.local.dao.UserDao
 import com.example.samplemvvm.data.local.entity.UserEntity
 import com.example.samplemvvm.util.log
 
-@Database(entities = [UserEntity::class], version = 1, exportSchema = false)
+@Database(entities = [UserEntity::class], version = 3, exportSchema = false)
 abstract class UserDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
