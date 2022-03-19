@@ -1,36 +1,54 @@
 package com.example.samplemvvm.ui.user
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.samplemvvm.BaseActivity
+import com.example.samplemvvm.R
 import com.example.samplemvvm.adapter.RecyclerViewDecoration
 import com.example.samplemvvm.adapter.UserAdapter
 import com.example.samplemvvm.databinding.ActivityUserBinding
+import com.example.samplemvvm.util.log
 import org.koin.android.ext.android.inject
 
-class UserActivity : AppCompatActivity() {
+class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>() {
 
-    private lateinit var userViewModel : UserViewModel
-    private val viewModelFactory: ViewModelProvider.Factory by inject()
+    override val layoutResourceId: Int = R.layout.activity_user
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override val viewModelFactory: ViewModelProvider.Factory by inject()
+    override val viewModel: UserViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
+    }
 
-        val binding = ActivityUserBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        
-        userViewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
-        val adapter = UserAdapter()
+    private lateinit var adapter: UserAdapter
+
+    override fun initStartView() {
+        log("UserActivity Create : initStartView")
+        adapter = UserAdapter()
+
+//        binding = ActivityUserBinding.inflate(layoutInflater)
+//        val view = binding.root
+//        setContentView(view)
+
+        binding.textView.text = "zxcv"
 
         binding.recyclerView.apply {
-            this.layoutManager = LinearLayoutManager(this@UserActivity)
             this.adapter = adapter
+            this.layoutManager = LinearLayoutManager(this@UserActivity)
             this.addItemDecoration(RecyclerViewDecoration(10))
+            this.setHasFixedSize(true)
         }
+    }
 
-        userViewModel.userFavoriteList.observe(this) {
+    override fun initDataBinding() {
+        log("UserActivity Create : initDataBinding")
+        viewModel.userFavoriteList.observe(this) {
+            log("userFavoriteList")
             adapter.submitList(it)
         }
+
+    }
+
+    override fun initAfterBinding() {
+        log("UserActivity Create : initAfterBinding")
     }
 }
