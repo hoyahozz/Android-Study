@@ -1,62 +1,49 @@
 package com.example.samplemvvm.ui.main
 
 import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.samplemvvm.BaseActivity
 import com.example.samplemvvm.BuildConfig
-import com.example.samplemvvm.MyApplication
+import com.example.samplemvvm.R
 import com.example.samplemvvm.adapter.RecyclerViewDecoration
 import com.example.samplemvvm.adapter.StationAdapter
-import com.example.samplemvvm.config.ViewModelFactory
 import com.example.samplemvvm.data.local.entity.UserEntity
 import com.example.samplemvvm.data.remote.entity.Row
-import com.example.samplemvvm.data.remote.repository.StationRepository
 import com.example.samplemvvm.databinding.ActivityMainBinding
 import com.example.samplemvvm.ui.user.UserActivity
 import com.example.samplemvvm.util.log
 import org.koin.android.ext.android.inject
 
-class MainActivity : AppCompatActivity(), MainClickListener {
+class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), MainClickListener {
 
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
-    private val viewModelFactory: ViewModelProvider.Factory by inject()
+    override val layoutResourceId: Int = R.layout.activity_main
+    override val viewModelFactory: ViewModelProvider.Factory by inject()
+    override val viewModel: MainViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
+    }
+
+    private lateinit var adapter: StationAdapter
 
     companion object {
         const val API_KEY = BuildConfig.API_KEY
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    override fun initStartView() {
         log("MainActivity Create")
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        val stationRepository = StationRepository()
-        val userRepository = MyApplication.getRepository()
-
-        val viewModelFactory = ViewModelFactory(stationRepository, userRepository)
-        val adapter = StationAdapter().apply { setItemLongClickListener(this@MainActivity) }
-//        val adapter = StationAdapter()
-
-        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
-        viewModel.getList(API_KEY)
+        adapter = StationAdapter().apply { setItemLongClickListener(this@MainActivity) }
 
         binding.recyclerView.apply {
             this.layoutManager = LinearLayoutManager(this@MainActivity)
-            this.adapter = adapter
+            this.adapter = this@MainActivity.adapter
             this.addItemDecoration(RecyclerViewDecoration(10))
+            this.setHasFixedSize(true)
         }
+    }
 
-        binding.btnRoom.setOnClickListener {
-            val intent = Intent(this, UserActivity::class.java)
-            startActivity(intent)
-        }
+    override fun initDataBinding() {
+        viewModel.getList(API_KEY)
 
         viewModel.station.observe(this) {
             if (it.isSuccessful) {
@@ -66,6 +53,13 @@ class MainActivity : AppCompatActivity(), MainClickListener {
             } else {
                 log("Can not connect!")
             }
+        }
+    }
+
+    override fun initAfterBinding() {
+        binding.btnRoom.setOnClickListener {
+            val intent = Intent(this, UserActivity::class.java)
+            startActivity(intent)
         }
     }
 
