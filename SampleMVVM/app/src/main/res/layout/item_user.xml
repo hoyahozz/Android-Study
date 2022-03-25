@@ -6,12 +6,17 @@
             name="user"
             type="com.example.samplemvvm.data.local.entity.UserEntity" />
 
+        <variable
+            name="itemLongClickListener"
+            type="com.example.samplemvvm.ui.user.UserClickListener" />
     </data>
 
     <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:onClick="@{() -> itemLongClickListener.onListItemClick(user)}">
 
         <TextView
             android:layout_width="80dp"

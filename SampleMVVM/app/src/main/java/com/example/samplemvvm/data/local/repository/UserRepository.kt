@@ -42,4 +42,14 @@ class UserRepository(application: Application) {
             log(e.toString())
         }
     }
+
+    fun delete(userEntity: UserEntity) {
+        try {
+            CoroutineScope(Dispatchers.IO).launch {
+                userDao.deleteFavorite(userEntity)
+            }
+        } catch (e : Exception) {
+            log(e.toString())
+        }
+    }
 }

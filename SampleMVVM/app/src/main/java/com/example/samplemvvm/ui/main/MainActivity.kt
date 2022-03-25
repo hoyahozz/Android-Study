@@ -1,12 +1,14 @@
 package com.example.samplemvvm.ui.main
 
 import android.content.Intent
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.samplemvvm.BaseActivity
 import com.example.samplemvvm.BuildConfig
 import com.example.samplemvvm.R
+import com.example.samplemvvm.TestActivity
 import com.example.samplemvvm.adapter.RecyclerViewDecoration
 import com.example.samplemvvm.adapter.StationAdapter
 import com.example.samplemvvm.data.local.entity.UserEntity
@@ -61,11 +63,25 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), MainCli
             val intent = Intent(this, UserActivity::class.java)
             startActivity(intent)
         }
+
+        binding.btn.setOnClickListener {
+            val intent = Intent(this, TestActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onListItemClick(item: Row) {
         Toast.makeText(this, "${item.station_name} 데이터베이스 저장 완료", Toast.LENGTH_SHORT).show()
         viewModel.insertFavorite(UserEntity(null, item.station_name))
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
 

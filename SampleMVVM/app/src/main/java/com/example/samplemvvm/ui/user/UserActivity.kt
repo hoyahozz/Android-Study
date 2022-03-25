@@ -1,15 +1,17 @@
 package com.example.samplemvvm.ui.user
 
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.samplemvvm.BaseActivity
 import com.example.samplemvvm.R
 import com.example.samplemvvm.adapter.RecyclerViewDecoration
 import com.example.samplemvvm.adapter.UserAdapter
+import com.example.samplemvvm.data.local.entity.UserEntity
 import com.example.samplemvvm.databinding.ActivityUserBinding
 import org.koin.android.ext.android.inject
 
-class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>() {
+class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(), UserClickListener {
 
     override val layoutResourceId: Int = R.layout.activity_user
 
@@ -18,8 +20,9 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>() {
         ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
     }
 
+
     private val adapter : UserAdapter by lazy {
-        UserAdapter()
+        UserAdapter().apply { setItemLongClickListener(this@UserActivity) }
     }
 
     override fun initStartView() {
@@ -41,6 +44,11 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>() {
 
     override fun initAfterBinding() {
 
+    }
+
+    override fun onListItemClick(item: UserEntity) {
+        Toast.makeText(this, "${item.stationName} 데이터베이스 삭제 완료", Toast.LENGTH_SHORT).show()
+        viewModel.deleteFavorite(UserEntity(item.id, item.stationName))
     }
 }
 

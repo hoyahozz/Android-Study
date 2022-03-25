@@ -10,6 +10,24 @@
         android:orientation="vertical"
         tools:context=".ui.main.MainActivity">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/toolbarContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                style="@style/Widget.AppCompat.Toolbar"
+                app:titleTextColor="@color/white"
+                app:navigationIcon="@drawable/ic_back"
+                app:title="@string/app_name" />
+        </com.google.android.material.appbar.AppBarLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,6 +51,14 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:text="Room"/>
+
+        <Button
+            android:id="@+id/btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="Room2"/>
 
 
     </LinearLayout>

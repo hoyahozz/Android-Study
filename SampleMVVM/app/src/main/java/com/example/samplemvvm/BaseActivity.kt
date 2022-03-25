@@ -1,12 +1,14 @@
 package com.example.samplemvvm
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.samplemvvm.R
 import com.example.samplemvvm.util.log
 
 abstract class BaseActivity<T: ViewDataBinding, R: ViewModel> : AppCompatActivity() {
@@ -23,6 +25,15 @@ abstract class BaseActivity<T: ViewDataBinding, R: ViewModel> : AppCompatActivit
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutResourceId)
         setContentView(binding.root)
+
+        if(com.example.samplemvvm.R.id.toolbar != null) {
+            log("toolbar ON")
+            setSupportActionBar(findViewById(com.example.samplemvvm.R.id.toolbar))
+            supportActionBar!!.setHomeAsUpIndicator(com.example.samplemvvm.R.drawable.ic_back)
+        }
+
+
+//        setSupportActionBar(binding.toolbar)
 
         log("BaseActivity Create")
 
@@ -53,4 +64,13 @@ abstract class BaseActivity<T: ViewDataBinding, R: ViewModel> : AppCompatActivit
     abstract fun initAfterBinding()
 
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 }

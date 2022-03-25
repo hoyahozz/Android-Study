@@ -5,10 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.samplemvvm.data.local.entity.UserEntity
 import com.example.samplemvvm.databinding.ItemUserBinding
+import com.example.samplemvvm.ui.user.UserClickListener
 
 class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     private val favoriteList = mutableListOf<UserEntity>()
+    private var itemLongClickListener : UserClickListener? = null
 
     fun submitList(getList : List<UserEntity>) {
         favoriteList.clear()
@@ -28,11 +30,15 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     override fun getItemCount(): Int = favoriteList.size
 
+    fun setItemLongClickListener(listener: UserClickListener) {
+        itemLongClickListener = listener
+    }
 
     inner class UserViewHolder(private val binding : ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item : UserEntity) {
             binding.user = item
+            binding.itemLongClickListener = itemLongClickListener
         }
     }
 }

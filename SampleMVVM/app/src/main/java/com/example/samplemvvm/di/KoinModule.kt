@@ -7,8 +7,6 @@ import com.example.samplemvvm.data.local.repository.UserRepository
 import com.example.samplemvvm.data.remote.repository.StationRepository
 import org.koin.dsl.module
 
-/* 아직 사용 X */
-
 val viewModelFactoryModule = module {
     single<ViewModelProvider.Factory> { ViewModelFactory(get(), get()) }
 }
