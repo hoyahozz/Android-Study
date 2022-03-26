@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
@@ -11,7 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.samplemvvm.R
 import com.example.samplemvvm.util.log
 
-abstract class BaseActivity<T: ViewDataBinding, R: ViewModel> : AppCompatActivity() {
+abstract class BaseActivity<T : ViewDataBinding, R : ViewModel> : AppCompatActivity() {
 
     lateinit var binding: T
 
@@ -22,20 +23,13 @@ abstract class BaseActivity<T: ViewDataBinding, R: ViewModel> : AppCompatActivit
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        log("BaseActivity Create")
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutResourceId)
         setContentView(binding.root)
 
-        if(com.example.samplemvvm.R.id.toolbar != null) {
-            log("toolbar ON")
-            setSupportActionBar(findViewById(com.example.samplemvvm.R.id.toolbar))
-            supportActionBar!!.setHomeAsUpIndicator(com.example.samplemvvm.R.drawable.ic_back)
-        }
-
-
+        configureToolbar()
 //        setSupportActionBar(binding.toolbar)
-
-        log("BaseActivity Create")
 
         initStartView()
         initDataBinding()
@@ -62,6 +56,15 @@ abstract class BaseActivity<T: ViewDataBinding, R: ViewModel> : AppCompatActivit
      * 클릭 리스너도 이곳에서 설정.
      */
     abstract fun initAfterBinding()
+
+    private fun configureToolbar() {
+        val toolbar = findViewById<Toolbar>(com.example.samplemvvm.R.id.toolbar)
+
+        if (toolbar != null) {
+            log("toolbar ON")
+            setSupportActionBar(findViewById(com.example.samplemvvm.R.id.toolbar))
+        }
+    }
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

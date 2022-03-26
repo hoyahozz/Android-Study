@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.samplemvvm.BaseActivity
 import com.example.samplemvvm.BuildConfig
 import com.example.samplemvvm.R
-import com.example.samplemvvm.TestActivity
 import com.example.samplemvvm.adapter.RecyclerViewDecoration
 import com.example.samplemvvm.adapter.StationAdapter
 import com.example.samplemvvm.data.local.entity.UserEntity
 import com.example.samplemvvm.data.remote.entity.Row
 import com.example.samplemvvm.databinding.ActivityMainBinding
+import com.example.samplemvvm.ui.frag.FragActivity
 import com.example.samplemvvm.ui.user.UserActivity
 import com.example.samplemvvm.util.log
 import org.koin.android.ext.android.inject
@@ -65,7 +65,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(), MainCli
         }
 
         binding.btn.setOnClickListener {
-            val intent = Intent(this, TestActivity::class.java)
+            val intent = Intent(this, FragActivity::class.java)
             startActivity(intent)
         }
     }

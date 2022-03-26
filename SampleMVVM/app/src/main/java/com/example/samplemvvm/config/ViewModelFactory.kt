@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.samplemvvm.data.local.repository.UserRepository
 import com.example.samplemvvm.data.remote.repository.StationRepository
+import com.example.samplemvvm.ui.frag.FragViewModel
 import com.example.samplemvvm.ui.main.MainViewModel
 import com.example.samplemvvm.ui.user.UserViewModel
 
@@ -12,7 +13,7 @@ class ViewModelFactory(
     private val userRepository: UserRepository
 ) : ViewModelProvider.Factory {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
 
         // return StationViewModel(stationRepository) as T
 
@@ -27,9 +28,12 @@ class ViewModelFactory(
                 modelClass.getConstructor(USER_REPO).newInstance(userRepository)
             }
 
+            FragViewModel::class.java -> {
+                modelClass.getConstructor().newInstance()
+            }
+
             else -> throw IllegalArgumentException("Unknown ViewModel class : ${modelClass.name}")
         } as T
-
     }
 
     companion object {

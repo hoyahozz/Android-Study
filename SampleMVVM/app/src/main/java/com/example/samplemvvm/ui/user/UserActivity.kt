@@ -20,12 +20,13 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(), UserCli
         ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
     }
 
-
     private val adapter : UserAdapter by lazy {
         UserAdapter().apply { setItemLongClickListener(this@UserActivity) }
     }
 
     override fun initStartView() {
+
+        supportActionBar!!.setHomeAsUpIndicator(R.drawable.ic_back)
 
         binding.recyclerView.apply {
             this.layoutManager = LinearLayoutManager(this@UserActivity)
