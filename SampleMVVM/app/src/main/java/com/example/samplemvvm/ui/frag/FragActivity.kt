@@ -8,12 +8,18 @@ import org.koin.android.ext.android.inject
 
 class FragActivity : BaseActivity<ActivityFragBinding, FragViewModel>() {
 
-
+    companion object {
+        private val TAG = "Activity"
+    }
+    
     override val layoutResourceId: Int = R.layout.activity_frag
     override val viewModelFactory: ViewModelProvider.Factory by inject()
     override val viewModel: FragViewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[FragViewModel::class.java]
     }
+
+    private val manager = supportFragmentManager
+
 
     override fun initStartView() {
         supportFragmentManager.beginTransaction()
@@ -27,15 +33,28 @@ class FragActivity : BaseActivity<ActivityFragBinding, FragViewModel>() {
 
     override fun initAfterBinding() {
         binding.btnOne.setOnClickListener {
-            supportFragmentManager.beginTransaction()
+            val transaction = manager.beginTransaction()
+            transaction
                 .replace(R.id.container, FirstFragment.newInstance())
-                .commitNow()
+                .commit()
+//            supportFragmentManager.beginTransaction()
+//                .replace(R.id.container, FirstFragment.newInstance())
+//                .commitNow()
         }
 
         binding.btnTwo.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, TwoFragment.newInstance())
-                .commitNow()
+            val transaction = manager.beginTransaction()
+            transaction
+                .replace(R.id.container, SecondFragment.newInstance())
+                .commit()
+        }
+
+        binding.btnThird.setOnClickListener {
+            val transaction = manager.beginTransaction()
+            transaction
+                .replace(R.id.container, ThirdFragment.newInstance())
+                .addToBackStack(null)
+                .commit()
         }
     }
 }

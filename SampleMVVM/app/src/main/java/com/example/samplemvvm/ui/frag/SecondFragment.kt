@@ -9,33 +9,33 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.samplemvvm.BaseFragment
 import com.example.samplemvvm.R
-import com.example.samplemvvm.databinding.FragmentFirstBinding
+import com.example.samplemvvm.databinding.FragmentSecondBinding
 import com.example.samplemvvm.util.log
 import org.koin.android.ext.android.inject
 
-class FirstFragment : BaseFragment<FragmentFirstBinding, FragViewModel>() {
+class SecondFragment : BaseFragment<FragmentSecondBinding, FragViewModel>() {
 
     companion object {
-        fun newInstance(): FirstFragment{
+        fun newInstance(): SecondFragment{
             val args = Bundle()
 
-            val fragment = FirstFragment()
+            val fragment = SecondFragment()
             fragment.arguments = args
             return fragment
         }
-
-        private val TAG = "FirstFragment"
+        private val TAG = "SecondFragment"
     }
 
-    override val layoutResourceId: Int = R.layout.fragment_first
-    private val viewModelFactory : ViewModelProvider.Factory by inject()
+    override val layoutResourceId = R.layout.fragment_second
+
+    private val viewModelFactory: ViewModelProvider.Factory by inject()
 
     override val viewModel: FragViewModel by lazy {
         ViewModelProvider(requireActivity(), viewModelFactory)[FragViewModel::class.java]
     }
 
     override fun initStartView() {
-
+        binding.count.text = viewModel.count.value.toString()
     }
 
     override fun initDataBinding() {
@@ -43,7 +43,7 @@ class FirstFragment : BaseFragment<FragmentFirstBinding, FragViewModel>() {
     }
 
     override fun initAfterBinding() {
-        binding.count.text = viewModel.count.value.toString()
+
         binding.btnPlus.setOnClickListener {
             viewModel.getUpdatedCount(1)
         }
@@ -73,9 +73,45 @@ class FirstFragment : BaseFragment<FragmentFirstBinding, FragViewModel>() {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d(TAG, "onViewCreated()")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG, "onStart()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG, "onStop()")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d(TAG, "onDestroyView()")
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG,"onDestroy()")
+        Log.d(TAG, "onDestroy()")
     }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.d(TAG, "onDetach()")
+    }
+
 
 }

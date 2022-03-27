@@ -4,31 +4,30 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.example.samplemvvm.BaseFragment
 import com.example.samplemvvm.R
-import com.example.samplemvvm.databinding.FragmentTwoBinding
+import com.example.samplemvvm.databinding.FragmentThirdBinding
 import org.koin.android.ext.android.inject
 
-class TwoFragment : BaseFragment<FragmentTwoBinding, FragViewModel>() {
+class ThirdFragment : BaseFragment<FragmentThirdBinding, FragViewModel>() {
 
     companion object {
-        fun newInstance(): TwoFragment{
+        fun newInstance(): ThirdFragment{
             val args = Bundle()
 
-            val fragment = TwoFragment()
+            val fragment = ThirdFragment()
             fragment.arguments = args
             return fragment
         }
     }
 
-    override val layoutResourceId = R.layout.fragment_two
-
-    private val viewModelFactory: ViewModelProvider.Factory by inject()
+    override val layoutResourceId: Int = R.layout.fragment_third
+    private val viewModelFactory : ViewModelProvider.Factory by inject()
 
     override val viewModel: FragViewModel by lazy {
-        ViewModelProvider(requireActivity(), viewModelFactory)[FragViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[FragViewModel::class.java]
     }
 
     override fun initStartView() {
-        binding.count.text = viewModel.count.value.toString()
+
     }
 
     override fun initDataBinding() {
@@ -36,7 +35,7 @@ class TwoFragment : BaseFragment<FragmentTwoBinding, FragViewModel>() {
     }
 
     override fun initAfterBinding() {
-
+        binding.count.text = viewModel.count.value.toString()
         binding.btnPlus.setOnClickListener {
             viewModel.getUpdatedCount(1)
             binding.count.text = viewModel.count.value.toString()

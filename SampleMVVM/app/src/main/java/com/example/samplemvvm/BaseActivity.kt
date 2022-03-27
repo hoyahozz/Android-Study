@@ -26,6 +26,7 @@ abstract class BaseActivity<T : ViewDataBinding, R : ViewModel> : AppCompatActiv
         log("BaseActivity Create")
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutResourceId)
+        binding.lifecycleOwner = this
         setContentView(binding.root)
 
         configureToolbar()

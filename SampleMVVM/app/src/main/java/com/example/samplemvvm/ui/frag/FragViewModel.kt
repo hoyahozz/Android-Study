@@ -3,6 +3,7 @@ package com.example.samplemvvm.ui.frag
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
+
 class FragViewModel : ViewModel() {
 
     var count = MutableLiveData<Int>()
