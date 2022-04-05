@@ -20,24 +20,27 @@ import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.work.Data
-import androidx.work.OneTimeWorkRequest
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import com.example.background.workers.BlurWorker
+import com.example.background.workers.CleanupWorker
+import com.example.background.workers.SaveImageToFileWorker
 
 /* BlurActivity 를 표시하는데 필요한 데이터를 모두 저장, WorkManager 를 사용해 백그라운드 작업을 시작하는 클래스 */
 class BlurViewModel(application: Application) : ViewModel() {
 
     internal var imageUri: Uri? = null
     internal var outputUri: Uri? = null
+    internal val outputWorkInfos : LiveData<List<WorkInfo>>
 
     private val workManager = WorkManager.getInstance(application) // WorkManager 변수 추가
+    // 싱글톤으로 구현이 되어있어 getInstance() 로 인스턴스를 받아 실행
 
     init {
         imageUri = getImageUri(application.applicationContext)
+        outputWorkInfos = workManager.getWorkInfosByTagLiveData(TAG_OUTPUT)
     }
 
     /**
@@ -50,12 +53,44 @@ class BlurViewModel(application: Application) : ViewModel() {
             .setInputData(createInputDataForUri()) // 결과 전달
             .build()
 
+        // 단일 워커 호출 -> enqueue
         workManager.enqueue(blurRequest)
+
+        // workRequest : 실제 요청하게 될 개별 작업, 어떻게 작업을 처리할 것인지에 대한 정보를 담음
         // workManager.enqueue(OneTimeWorkRequest.from(BlurWorker::class.java))
         // OneTimeWorkRequest : 한 번만 실행
         // PeriodicWorkRequest : 일정 주기로 반복
         // internal : 같은 모듈 안에서만 볼 수 있음
+    }
 
+    // Worker Chain (순서대로 여러 개의 워커 실행)
+    internal fun multiApplyBlur(blurLevel: Int) {
+        // Worker 체인 여러 번 실행
+//        var continuation = workManager
+//            .beginWith(OneTimeWorkRequest.from(CleanupWorker::class.java))
+
+        // Worker 체인 한 번에 하나씩만 실행
+        var continuation = workManager
+            .beginUniqueWork(IMAGE_MANIPULATION_WORK_NAME,
+            ExistingWorkPolicy.REPLACE,
+            OneTimeWorkRequest.from(CleanupWorker::class.java))
+
+        for (i in 0 until blurLevel) {
+            val blurBuilder = OneTimeWorkRequestBuilder<BlurWorker>()
+            if(i == 0) {
+                blurBuilder.setInputData(createInputDataForUri())
+            }
+
+            continuation = continuation.then(blurBuilder.build())
+        }
+
+        val save = OneTimeWorkRequestBuilder<SaveImageToFileWorker>()
+            .addTag(TAG_OUTPUT) // 태그 추가
+            .build()
+
+        continuation = continuation.then(save)
+
+        continuation.enqueue()
     }
 
     private fun createInputDataForUri(): Data {
@@ -89,6 +124,10 @@ class BlurViewModel(application: Application) : ViewModel() {
 
     internal fun setOutputUri(outputImageUri: String?) {
         outputUri = uriOrNull(outputImageUri)
+    }
+
+    internal fun cancelWork() {
+        workManager.cancelUniqueWork(IMAGE_MANIPULATION_WORK_NAME)
     }
 
 
