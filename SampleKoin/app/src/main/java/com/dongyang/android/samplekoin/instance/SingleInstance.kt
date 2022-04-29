@@ -1,4 +1,4 @@
-package com.dongyang.android.samplekoin
+package com.dongyang.android.samplekoin.instance
 
 class SingleInstance {
 

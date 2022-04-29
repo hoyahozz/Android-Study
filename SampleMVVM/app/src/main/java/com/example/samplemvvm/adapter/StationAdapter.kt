@@ -12,7 +12,7 @@ class StationAdapter : RecyclerView.Adapter<StationAdapter.StationViewHolder>() 
     private val stationList = mutableListOf<Row>()
     private var itemLongClickListener : MainClickListener? = null
 
-    fun submitList(getList : List<Row>) {
+    fun submitList(getList : List<Row>) { // 데이터를 받고 화면에 뿌립니다
         stationList.clear()
         stationList.addAll(getList)
         notifyDataSetChanged()

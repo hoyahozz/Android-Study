@@ -1,5 +1,7 @@
 package com.dongyang.android.samplekoin
 
+import com.dongyang.android.samplekoin.instance.FactoryInstance
+import com.dongyang.android.samplekoin.instance.SingleInstance
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -14,8 +16,9 @@ val factoryModule = module {
     factory { FactoryInstance() }
 }
 
+// 제공된 객체들 중 get() 부분에 들어가 객체를 알아서 찾아 넣어준다.
 val repositoryModule = module {
-    single { SampleRepository(get())}
+    single { SampleRepository()}
     single { SampleRepository2(get())}
 }
 

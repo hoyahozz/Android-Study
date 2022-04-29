@@ -31,4 +31,5 @@ class MainViewModel(
     fun insertFavorite(userEntity: UserEntity) {
         userRepository.insert(userEntity)
     }
+
 }
