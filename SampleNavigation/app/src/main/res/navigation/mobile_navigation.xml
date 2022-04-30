@@ -38,6 +38,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/shopping_action"
+            app:destination="@id/shopping_dest"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -56,6 +64,12 @@
     </fragment>
 
     <fragment
+        android:id="@+id/shopping_dest"
+        android:name="com.example.android.codelabs.navigation.ShoppingFragment"
+        tools:layout="@layout/shopping_fragment">
+    </fragment>
+
+    <fragment
         android:id="@+id/flow_step_two_dest"
         android:name="com.example.android.codelabs.navigation.FlowStepFragment"
         tools:layout="@layout/flow_step_two_fragment">
@@ -71,13 +85,11 @@
         </action>
     </fragment>
 
-    <!-- TODO STEP 4 Create a new navigation destination pointing to SettingsFragment -->
-    <!--<fragment-->
-        <!--android:id="@+id/settings_dest"-->
-        <!--android:name="com.example.android.codelabs.navigation.SettingsFragment"-->
-        <!--android:label="@string/settings"-->
-        <!--tools:layout="@layout/settings_fragment" />-->
-    <!-- TODO END STEP 4 -->
+    <fragment
+        android:id="@+id/settings_dest"
+        android:name="com.example.android.codelabs.navigation.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/settings_fragment" />
 
     <fragment
         android:id="@+id/deeplink_dest"
@@ -85,13 +97,11 @@
         android:label="@string/deeplink"
         tools:layout="@layout/deeplink_fragment">
 
+        <!-- TODO STEP 11.1 - Add a deep link to www.example.com/{myarg}/ -->
         <argument
             android:name="myarg"
             android:defaultValue="Android!"/>
-        <!-- TODO STEP 11.1 - Add a deep link to www.example.com/{myarg}/ -->
-
-        <!--<deepLink app:uri="www.example.com/{myarg}" />-->
-
+        <deepLink app:uri="www.example.com/{myarg}" />
         <!-- TODO END STEP 11.1 -->
     </fragment>
     <fragment

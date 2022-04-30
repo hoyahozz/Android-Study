@@ -46,6 +46,7 @@ class DeepLinkFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 위젯에서 접근 시 아규먼트 표시 (요기서는 From Widget이 나옴)
         val textView = view.findViewById<TextView>(R.id.text)
         textView.text = arguments?.getString("myarg")
 
@@ -68,7 +69,7 @@ class DeepLinkFragment : Fragment() {
             }
 
             val builder = NotificationCompat.Builder(
-                    context!!, "deeplink")
+                     requireContext(), "deeplink")
                     .setContentTitle("Navigation")
                     .setContentText("Deep link to Android")
                     .setSmallIcon(R.drawable.ic_android)

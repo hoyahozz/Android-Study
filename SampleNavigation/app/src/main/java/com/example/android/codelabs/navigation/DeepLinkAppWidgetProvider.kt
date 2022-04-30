@@ -21,10 +21,16 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.os.Bundle
 import android.widget.RemoteViews
+import androidx.navigation.NavDeepLinkBuilder
 
 /**
  * App Widget that deep links you to the [DeepLinkFragment].
  */
+
+// 딥 링크 지원도 포함
+// 네비게이션 XML에서 app:startDestination 으로 지정된 대상으로 백스택이 적용됨.
+// 즉 요기서는 딥링크 프래그먼트 -> 홈프래그먼트로 이동되는 루트
+
 class DeepLinkAppWidgetProvider : AppWidgetProvider() {
     override fun onUpdate(
         context: Context,
@@ -39,13 +45,13 @@ class DeepLinkAppWidgetProvider : AppWidgetProvider() {
         val args = Bundle()
         args.putString("myarg", "From Widget")
         // TODO STEP 10 - construct and set a PendingIntent using DeepLinkBuilder
-//        val pendingIntent = NavDeepLinkBuilder(context)
-//                .setGraph(R.navigation.mobile_navigation)
-//                .setDestination(R.id.deeplink_dest)
-//                .setArguments(args)
-//                .createPendingIntent()
-//
-//        remoteViews.setOnClickPendingIntent(R.id.deep_link_button, pendingIntent)
+        val pendingIntent = NavDeepLinkBuilder(context)
+                .setGraph(R.navigation.mobile_navigation) // 네비에기션 그래프 설정
+                .setDestination(R.id.deeplink_dest) // 정크 연결위치 지정
+                .setArguments(args) // 아규먼트 설정
+                .createPendingIntent()
+
+        remoteViews.setOnClickPendingIntent(R.id.deep_link_button, pendingIntent)
         // TODO END STEP 10
         appWidgetManager.updateAppWidget(appWidgetIds, remoteViews)
     }
